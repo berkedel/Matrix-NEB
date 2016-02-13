@@ -20,11 +20,17 @@ class MonitorPlugin(Plugin):
 
         # upload image file to home server
         uri = "%s/upload" % self.config.base_url.replace('client/api', 'media')
-        res = requests.post(uri,
-                            files={'media': open(fname, 'rb')},
-                            data={'access_token': self.config.token,
-                                  'filename': rnd})
-        print(res)
+        res = requests.request('POST',
+                               uri,
+                               params={
+                                   'access_token': self.config.token,
+                                   'filename': rnd
+                               },
+                               data=open(fname, 'rb'),
+                               headers={
+                                   'Content-Type': 'image/jpeg'
+                               }
+                            )
         mxc = res.json()
         content = {
             'body': rnd,
@@ -33,7 +39,6 @@ class MonitorPlugin(Plugin):
         }
         self.matrix.send_message_event(event['room_id'], event['type'], content)
         return mxc['content_uri']
-        # return "OK"
 
     def cmd_stream(self, event, *args):
         return "cmd_stream"
