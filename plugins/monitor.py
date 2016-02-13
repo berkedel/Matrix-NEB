@@ -1,3 +1,7 @@
+import os
+import time
+import requests
+import json
 from neb.plugins import Plugin
 
 class MonitorPlugin(Plugin):
@@ -6,8 +10,30 @@ class MonitorPlugin(Plugin):
     monitor stream : Get a live stream from your smart home camera
     """
     name = "monitor"
+
     def cmd_snap(self, event, *args):
-        return "cmd_snap"
+        # capture image from the camera module
+        rnd = "%s.jpg" % long(time.time())
+        fname = "/tmp/%s" % rnd
+        cmd = "raspistill -o %s" % fname
+        os.popen(cmd)
+
+        # upload image file to home server
+        uri = "%s/upload" % self.config.base_url.replace('client/api', 'media')
+        res = requests.post(uri,
+                            files={'media': open(fname, 'rb')},
+                            data={'access_token': self.config.token,
+                                  'filename': rnd})
+        print(res)
+        mxc = res.json()
+        content = {
+            'body': rnd,
+            'msgtype': 'm.image',
+            'url': mxc['content_uri']
+        }
+        self.matrix.send_message_event(event['room_id'], event['type'], content)
+        return mxc['content_uri']
+        # return "OK"
 
     def cmd_stream(self, event, *args):
         return "cmd_stream"
