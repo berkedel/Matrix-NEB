@@ -4,14 +4,15 @@ import argparse
 from matrix_client.api import MatrixHttpApi
 from neb.engine import Engine
 from neb.matrix import MatrixConfig
-from plugins.b64 import Base64Plugin
-from plugins.guess_number import GuessNumberPlugin
-from plugins.jenkins import JenkinsPlugin
-from plugins.jira import JiraPlugin
-from plugins.url import UrlPlugin
-from plugins.time_utils import TimePlugin
-from plugins.github import GithubPlugin
-from plugins.prometheus import PrometheusPlugin
+# from plugins.b64 import Base64Plugin
+# from plugins.guess_number import GuessNumberPlugin
+# from plugins.jenkins import JenkinsPlugin
+# from plugins.jira import JiraPlugin
+# from plugins.url import UrlPlugin
+# from plugins.time_utils import TimePlugin
+# from plugins.github import GithubPlugin
+# from plugins.prometheus import PrometheusPlugin
+from plugins.monitor import MonitorPlugin
 
 import logging
 import logging.handlers
@@ -71,14 +72,15 @@ def main(config):
 
     log.debug("Setting up plugins...")
     plugins = [
-        TimePlugin,
-        Base64Plugin,
-        GuessNumberPlugin,
-        JiraPlugin,
-        UrlPlugin,
-        GithubPlugin,
-        JenkinsPlugin,
-        PrometheusPlugin,
+        #TimePlugin,
+        #Base64Plugin,
+        #GuessNumberPlugin,
+        #JiraPlugin,
+        #UrlPlugin,
+        #GithubPlugin,
+        #JenkinsPlugin,
+        #PrometheusPlugin,
+        MonitorPlugin,
     ]
 
     # setup engine
