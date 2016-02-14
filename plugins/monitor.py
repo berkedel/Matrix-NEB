@@ -45,9 +45,9 @@ class MonitorPlugin(Plugin):
     def cmd_stream(self, event, mode):
         if mode == "start":
             room = "r%s" % long(time.time() * 1000)
-            cmd = "curl -s 'http://127.0.0.1:8080/xmpp?server=meet.jit.si&port=5222&muc=conference.meet.jit.si&room=%s&room_password=&username=homebot&password=&bosh_enable=1&bosh_tls=1&bosh_server=meet.jit.si&bosh_port=443&bosh_hostname=meet.jit.si&reconnect=1&action=Start' > /dev/null" % room
+            cmd = "curl -s 'http://127.0.0.1:8080/xmpp?server=meet.jit.si&port=5222&muc=conference.meet.jit.si&room=%s&room_password=&username=tadhack&password=&bosh_enable=1&bosh_tls=1&bosh_server=meet.jit.si&bosh_port=443&bosh_hostname=meet.jit.si&reconnect=1&action=Start' > /dev/null" % room
             os.popen(cmd)
-            return "Join room at http://meet.jit.si/%s" % room
+            return "Open http://meet.jit.si/%s" % room
         elif mode == "stop":
             cmd = "curl -s 'http://127.0.0.1:8080/xmpp?action=Stop' > /dev/null"
             os.popen(cmd)
